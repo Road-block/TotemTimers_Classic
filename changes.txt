@@ -1,3 +1,6 @@
+5.0.2
+    - MoP: Fix Water Shield
+    - MoP: Show time for Lightning and Water Shields only, show Earth Shield stacks if stacks only enabled in options
 5.0.1
     - Added missing totems in MoP
     - Added several long cooldowns in MoP
