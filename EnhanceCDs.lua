@@ -230,8 +230,10 @@ function TotemTimers.ConfigEnhanceCDs()
         cds[i]:Deactivate()
     end
     FlameShockDuration:Deactivate()
-    if Maelstrom then Maelstrom:Deactivate() end
-    MaelstromIcon:Hide()
+    if Maelstrom then
+        Maelstrom:Deactivate()
+        MaelstromIcon:Hide()
+    end
 
     if role == 0 or not TotemTimers.ActiveProfile.EnhanceCDs then return end
 
@@ -643,9 +645,11 @@ end
 
 
 local actionToButton = {}
-hooksecurefunc("ActionButton_Update", function(self)
-    if self.action then actionToButton[self.action] = self end
-end)
+if _G["ActionButton_Update"] then
+    hooksecurefunc("ActionButton_Update", function(self)
+        if self.action then actionToButton[self.action] = self end
+    end)
+end
 
 --[[local multiBarButtonNames = {
     [3] = "MultiBarRightButton",

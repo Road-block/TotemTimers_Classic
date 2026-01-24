@@ -118,6 +118,25 @@ function XiTimers:new(nroftimers, unclickable)
     self.button.SetChecked = function() end
     self.button.GetChecked = function() return false end
     self.button.SetDisabledCheckedTexture = function() end
+
+    for _, texture in pairs({"SpellHighlightTexture", "PushedTexture", "NewActionTexture", "HighlightTexture"}) do
+        if self.button[texture] then
+            self.button[texture]:SetTexture(nil)
+            self.button[texture]:Hide()
+        end
+    end
+    if self.button.SpellHighlightAnim then
+        self.button.SpellHighlightAnim:Stop()
+    end
+
+    local regions = {self.button:GetRegions()}
+    for i, region in ipairs(regions) do
+        if not region:GetName() then
+           region:SetTexture(nil)
+           region:Hide()
+        end
+    end
+
     
 	self.button.unclickable = unclickable
 	self.button.element = XiTimers.nrOfTimers
@@ -149,7 +168,7 @@ function XiTimers:new(nroftimers, unclickable)
             flash.flashAnim:SetDuration(15)
             flash.flashAnim.flash = flash
             flash.flashAnim:SetScript("OnPlay", function(self) self.flash:Show() end)
-            flash.flashAnim:SetScript("OnUpdate", function(self) self.flash:SetAlpha(BuffFrame.BuffAlphaValue) end)
+            flash.flashAnim:SetScript("OnUpdate", function(self) self.flash:SetAlpha(BuffFrame.BuffAlphaValue or BuffFrame.AuraContainer:GetAuraWarningAlphaForDuration(0)) end)
 			flash.flashAnim:SetScript("OnStop", function(self) self.flash:SetAlpha(inActiveAlpha) end)
 			flash.flashAnim:SetScript("OnFinished", function(self) self.flash:SetAlpha(inActiveAlpha) end)
         end
@@ -165,7 +184,7 @@ function XiTimers:new(nroftimers, unclickable)
     flash.flashAnim:SetScript("OnPlay", function(self) self.flash:Show() end)
     flash.flashAnim:SetScript("OnFinished", function(self) self.flash:Hide() end)
     flash.flashAnim:SetScript("OnStop", function(self) self.flash:Hide() end)
-    flash.flashAnim:SetScript("OnUpdate", function(self) self.flash:SetAlpha(BuffFrame.BuffAlphaValue) end)
+    flash.flashAnim:SetScript("OnUpdate", function(self) self.flash:SetAlpha(BuffFrame.BuffAlphaValue or BuffFrame.AuraContainer:GetAuraWarningAlphaForDuration(0)) end)
     
     
     self.timeColor = {r=1,g=1,b=1,a=1}
