@@ -236,12 +236,10 @@ function TotemTimers.WeaponUpdate(self, elapsed)
         end
     end
 
-    if ActionButton_ShowOverlayGlow then
-        if showGlow and TotemTimers.Specialization == 2 and TotemTimers.ActiveProfile.WeaponGlow then
-            ActionButton_ShowOverlayGlow(self.button)
-        else
-            ActionButton_HideOverlayGlow(self.button)
-        end
+    if showGlow and TotemTimers.Specialization == 2 and TotemTimers.ActiveProfile.WeaponGlow then
+        self:ShowOverlayGlow()
+    else
+        self:HideOverlayGlow()
     end
 
     XiTimers.Update(self, 0)
