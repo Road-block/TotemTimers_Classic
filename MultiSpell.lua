@@ -112,6 +112,7 @@ function TotemTimers.CreateMultiCastButtons()
     -- mb:RegisterForClicks("LeftButton, RightButton")
     mb:RegisterForDrag("LeftButton")
     mb:RegisterForClicks("AnyDown")
+    mb:SetAttribute("useOnKeyDown", 1)
     TotemTimers.PositionCastButtons()
 end
 

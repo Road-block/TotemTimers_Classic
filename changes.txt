@@ -1,3 +1,6 @@
+5.0.6
+    - Fixed buttons not being able to click, thanks to Flax78
+    - Fixed long cooldown options missing in TBC
 5.0.5
     - Fixed red flash animation position
     - Fixed totem menus

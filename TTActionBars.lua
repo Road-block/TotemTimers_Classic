@@ -105,6 +105,7 @@ function TTActionBars:new(numbuttons, parent, secondanchor, directionanchor, bar
         b.OnShow = function(self) end -- override if button should do additional stuff on show
         
 		b:RegisterForClicks("AnyDown")
+        b:SetAttribute("useOnKeyDown", 1)
 		b:SetAttribute("*type1", "spell")
         b:SetAttribute("*type2", nil)
 

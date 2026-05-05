@@ -414,6 +414,25 @@ for spec = 1, 3 do
     }
 end
 
+if (TotemTimers.LongCooldownSpells) then
+    for i,lc in pairs(TotemTimers.LongCooldownSpells) do
+        local spellID = lc.spell
+        TotemTimers.options.args.enhancecds.args["4"].args[tostring(spellID)] = {
+            order = i,
+            type = "toggle",
+            name = SpellNames[spellID],
+            set = function(info, val)
+                TotemTimers.ActiveProfile.LongCooldownSpells[spellID] = val
+                TotemTimers.ProcessSetting("LongCooldowns")
+            end,
+            get = function()
+                local val = TotemTimers.ActiveProfile.LongCooldownSpells[spellID]
+                return val == nil or val
+            end
+        }
+    end
+end
+
 if WOW_PROJECT_ID > WOW_PROJECT_BURNING_CRUSADE_CLASSIC or C_Seasons.GetActiveSeason() == 2 then
 
     TotemTimers.options.args.enhancecds.args.options.args.OverlayGlow = {
@@ -499,23 +518,6 @@ if WOW_PROJECT_ID > WOW_PROJECT_BURNING_CRUSADE_CLASSIC or C_Seasons.GetActiveSe
             return TotemTimers.ActiveProfile.MaelstromNumberOnly
         end,
     }
-
-    for i,lc in pairs(TotemTimers.LongCooldownSpells) do
-        local spellID = lc.spell
-        TotemTimers.options.args.enhancecds.args["4"].args[tostring(spellID)] = {
-            order = i,
-            type = "toggle",
-            name = SpellNames[spellID],
-            set = function(info, val)
-                TotemTimers.ActiveProfile.LongCooldownSpells[spellID] = val
-                TotemTimers.ProcessSetting("LongCooldowns")
-            end,
-            get = function()
-                local val = TotemTimers.ActiveProfile.LongCooldownSpells[spellID]
-                return val == nil or val
-            end
-        }
-    end
 end
 
 if C_Seasons.GetActiveSeason() == 2 then
