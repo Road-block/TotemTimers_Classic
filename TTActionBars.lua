@@ -64,7 +64,7 @@ function TTActionBars:new(numbuttons, parent, secondanchor, directionanchor, bar
         b.icon:Show()
 
 		b:SetAttribute("_childupdate-show", [[ if self:GetAttribute("alwaysshow") or self:GetAttribute("inactive") then return end
-                                               if message then
+                                               if message == true then
                                                    self:Show()
                                                else
                                                    self:Hide()
@@ -87,7 +87,7 @@ function TTActionBars:new(numbuttons, parent, secondanchor, directionanchor, bar
         parent:SetAttribute("_onenter", [[ if self:GetAttribute("OpenMenu") == "mouseover" then
                                                   self:ChildUpdate("show", true)
                                               end ]])
-
+        -- mists 5.5.4 IsUnderMouse seems to ignore recursive param
         parent:SetAttribute("_onleave", [[
             if not self:IsUnderMouse(true) then
                 owner:ChildUpdate("show", false)
@@ -99,7 +99,7 @@ function TTActionBars:new(numbuttons, parent, secondanchor, directionanchor, bar
                                                        control:ChildUpdate("show", false)
                                                    end
                                                  ]])
-
+        b:SetAttribute("_onenter", [[ self:GetParent():ChildUpdate("show", true)]]) -- mists 5.5.4 need this because IsUnderMouse(recursive) is broken
         b:SetAttribute("_onhide", [[self:ClearBindings() self:GetParent():SetAttribute("open", false)]])
         b:SetAttribute("_onleave", [[ if not self:GetParent():IsUnderMouse(true) then self:GetParent():ChildUpdate("show", false) end]])
         b.OnShow = function(self) end -- override if button should do additional stuff on show

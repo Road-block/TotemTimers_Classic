@@ -41,7 +41,16 @@ frame:HookScript("OnShow", function(self)
             local totems = {}
             for element = 1,4 do
                 if set[element] then
-                    totems[element] = TotemTimers.ElementColors[element]:WrapTextInColorCode(SpellNames[set[element]])
+                    if not SpellNames[set[element]] then
+                        print("TT: missing name for spell "..set[element])
+                        print("    totem might no longer exist, delete/remake the set")
+                    end
+                    if not TotemTimers.ElementColors[element] then
+                        print("TT: missing color for element "..element)
+                    end
+                    if TotemTimers.ElementColors[element] then
+                        totems[element] = TotemTimers.ElementColors[element]:WrapTextInColorCode(SpellNames[set[element]] or tostring(set[element]))
+                    end
                 end
             end
 
@@ -59,7 +68,11 @@ frame:HookScript("OnShow", function(self)
                     set.name = value
 
                     ACR:NotifyChange("TotemTimers")
-                    InterfaceOptionsFrame_OpenToCategory(frame)
+                    if Settings and Settings.OpenToCategory then
+                        Settings.OpenToCategory(frame.name)
+                    elseif InterfaceOptionsFrame_OpenToCategory then
+                        InterfaceOptionsFrame_OpenToCategory(frame)
+                    end
                 end,
             })
 
@@ -84,6 +97,10 @@ StaticPopupDialogs["TOTEMTIMERS_DELETESET"].OnAccept = function(self, nr)
     deleteOnAccept(self, nr)
     if frame:IsVisible() then
         ACR:NotifyChange("TotemTimers")
-        InterfaceOptionsFrame_OpenToCategory(frame)
+        if Settings and Settings.OpenToCategory then
+            Settings.OpenToCategory(frame.name)
+        elseif InterfaceOptionsFrame_OpenToCategory then
+            InterfaceOptionsFrame_OpenToCategory(frame)
+        end
     end
 end
